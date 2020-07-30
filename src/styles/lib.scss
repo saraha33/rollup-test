@@ -1,0 +1,208 @@
+@import 'src/styles/variables';
+
+/* for accessibility */
+.hide {
+  position: absolute !important;
+  top: auto !important;
+  left: -9999px !important;
+}
+
+*, *:before, *:after {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+
+  &:focus {
+    outline: 0;
+  }
+}
+
+button {
+  font-family: inherit;
+  font-size: inherit;
+  border: none;
+  text-transform: inherit;
+  background: transparent;
+
+  &:focus {
+    outline: 0;
+  }
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+
+  &:focus {
+    outline: 0;
+  }
+}
+
+li {
+  list-style: none;
+}
+
+fieldset {
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
+input[type=text], input[type=date], textarea, input[type=number] {
+  font-family: inherit;
+  font-size: inherit;
+  background-color: transparent;
+  border-radius: 0;
+  padding: 0;
+}
+
+input:focus, input[type=date]:focus, input[type=search]:focus, textarea:focus, video:focus,
+audio:focus, input[type=number]:focus {
+  outline: none;
+}
+
+input::placeholder, textarea::placeholder {
+  color: $font-color-third;
+  padding: 0;
+}
+
+input[type=search]::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+}
+
+input[type=number], input[type=email] {
+  border: none;
+}
+
+// to hide the stepper for number input
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number] {
+  -moz-appearance:textfield;
+}
+
+textarea {
+  box-shadow: none
+}
+
+// to prevent safari strange padding
+input {
+  padding: 0;
+}
+
+button {
+  padding: 0;
+}
+
+/* recommended css code for vue-svgicon */
+.svg-icon {
+  display: inline-block;
+  color: inherit;
+  vertical-align: middle;
+  fill: none;
+  stroke: currentColor;
+}
+
+.svg-fill {
+  fill: currentColor;
+  stroke: none;
+}
+
+.svg-up {
+  /* default */
+  transform: rotate(0deg);
+}
+
+.svg-right {
+  transform: rotate(90deg);
+}
+
+.svg-down {
+  transform: rotate(180deg);
+}
+
+.svg-left {
+  transform: rotate(-90deg);
+}
+
+/* base-date-picker styling */
+.mx-datepicker {
+  width: 100%;
+}
+
+// change font and font size
+.mx-calendar, .mx-datepicker-main, .mx-calendar-header-label, .mx-btn,
+.mx-table-date .cell:not(.not-current-month), .mx-table-date th {
+  font: inherit !important;
+  color: $font-color !important;
+
+  .not-current-month {
+    font: inherit !important;
+  }
+}
+
+// change font size for time
+.mx-time-column .mx-time-item {
+  font-size: $font-size-regular !important;
+  height: $row-height-small !important;
+  line-height: $row-height-small;
+}
+
+/* dont need special color for today */
+.mx-table-date td.today {
+  color: $font-color !important;
+}
+
+// calendar width
+.mx-calendar {
+  width: 250px !important;
+}
+
+.mx-btn {
+  display: inline !important;
+}
+
+// hover color
+.mx-calendar-content .cell:hover, .mx-calendar-header > a:hover,
+.mx-time-column .mx-time-item:hover {
+  color: $app-color !important;
+  background-color: transparent !important;
+}
+
+// selected color
+.mx-calendar-content .cell.active,
+.mx-time-column .mx-time-item.active {
+  background-color: $app-color !important;
+  color: white !important;
+}
+
+// remove space in the end in time column
+.mx-time-column .mx-time-list::after{
+  height: 0 !important;
+}
+
+input.base-date-input__datepicker-input:focus {
+  outline: none;
+}
+
+.base-date-input__datepicker-input {
+  border: none;
+  outline: none;
+  width: calc(100% - #{$spacing});
+  height: 100%;
+  background-color: transparent;
+}
+
+.mx-datepicker-popup {
+  border: none !important;
+  box-shadow: $preview-box-shadow !important;
+}
