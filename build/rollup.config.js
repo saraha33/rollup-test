@@ -1,16 +1,19 @@
 // rollup.config.js
-import fs from 'fs';
-import path from 'path';
+import fs from 'fs'
+import path from 'path'
 import vue from 'rollup-plugin-vue';
 import alias from '@rollup/plugin-alias';
 import commonjs from '@rollup/plugin-commonjs';
 import replace from '@rollup/plugin-replace';
 import resolve from '@rollup/plugin-node-resolve';
+import babel from '@rollup/plugin-babel';
+import image from '@rollup/plugin-image';
 import postcss from 'rollup-plugin-postcss';
 import css from 'rollup-plugin-css-only';
-import babel from 'rollup-plugin-babel';
 import { terser } from 'rollup-plugin-terser';
 import minimist from 'minimist';
+
+import pack from '../package.json';
 
 // Get browserslist config and remove ie from es build targets
 const esbrowserslist = fs.readFileSync('./.browserslistrc')
@@ -20,10 +23,56 @@ const esbrowserslist = fs.readFileSync('./.browserslistrc')
 
 const argv = minimist(process.argv.slice(2));
 
+console.log(argv);
+
 const projectRoot = path.resolve(__dirname, '..');
 
+console.log(projectRoot);
+
+const baseFolder = './src/';
+const componentsFolder = 'components/';
+
+const bannerTxt = `/*! base UI components v${pack.version} | Apache License, Version 2.0 | github.com/base-angewandte/base-ui-components */`
+
+const components = fs
+  .readdirSync(baseFolder + componentsFolder)
+  .filter((f) =>
+    fs.statSync(path.join(baseFolder + componentsFolder, f)).isDirectory()
+  )
+
+const entries = {
+  'index': './src/entry.js',
+  ...components.reduce((obj, name) => {
+    obj[name] = (baseFolder + componentsFolder + name)
+    return obj
+  }, {})
+}
+
+components.forEach((component) => {
+  fs.writeFileSync(
+    path.resolve(`${baseFolder}/${componentsFolder}/${component}`, 'index.js'),
+    `import ${component} from './${component}';
+
+import { use, registerComponent } from '../../utils/plugins';
+
+const Plugin = {
+    install(Vue) {
+        registerComponent(Vue, ${component})
+    }
+};
+
+use(Plugin);
+
+export default Plugin;
+
+export {
+    ${component}
+};`,
+  );
+})
+
 const baseConfig = {
-  input: 'src/entry.js',
+  input: entries,
   plugins: {
     resolve: {
       extensions: ['.mjs', '.js', '.json', '.node', '.vue'],
@@ -54,6 +103,9 @@ const baseConfig = {
     },
     babel: {
       exclude: 'node_modules/**',
+      // https://github.com/rollup/plugins/tree/master/packages/babel#babelhelpers
+      // user 'runtime' for libraries for improved code deduplication
+      babelHelpers: 'runtime',
       extensions: ['.js', '.jsx', '.ts', '.tsx', '.vue'],
     },
   },
@@ -65,6 +117,8 @@ const external = [
   // list external dependencies, exactly the way it is written in the import statement.
   // eg. 'jquery'
   'vue',
+  // /@babel\/runtime/,
+  'vue2-datepicker',
 ];
 
 // UMD/IIFE shared settings: output.globals
@@ -73,7 +127,43 @@ const globals = {
   // Provide global variable names to replace your external imports
   // eg. jquery: '$'
   vue: 'Vue',
+  'vue2-datepicker': 'Datepicker',
 };
+
+const mapComponent = (name) => {
+  return [
+    {
+      input: baseFolder + componentsFolder + `${name}/index.js`,
+      ...baseConfig,
+      external,
+      output: {
+        format: 'iife',
+        name: name,
+        file: `dist/components/${name}/index.js`,
+        banner: bannerTxt,
+        exports: 'named',
+        globals,
+        compact: true,
+      },
+      plugins: [
+        resolve(baseConfig.plugins.resolve),
+        replace(baseConfig.plugins.replace),
+        ...baseConfig.plugins.preVue,
+        css(baseConfig.plugins.css),
+        vue(baseConfig.plugins.vue),
+        babel(baseConfig.plugins.babel),
+        commonjs(),
+        image(),
+        terser({
+          output: {
+            ecma: 5,
+          },
+        }),
+        postcss(),
+      ],
+    }
+  ]
+}
 
 // Customize configs for individual targets
 const buildFormats = [];
@@ -82,8 +172,8 @@ if (!argv.format || argv.format === 'es') {
     ...baseConfig,
     external,
     output: {
-      file: 'dist/src-rollup-test.esm.js',
       format: 'esm',
+      dir: 'dist/esm',
       exports: 'named',
     },
     plugins: [
@@ -107,6 +197,7 @@ if (!argv.format || argv.format === 'es') {
         ],
       }),
       commonjs(),
+      image(),
       postcss(),
     ],
   };
@@ -119,9 +210,8 @@ if (!argv.format || argv.format === 'cjs') {
     external,
     output: {
       compact: true,
-      file: 'dist/src-rollup-test.ssr.js',
       format: 'cjs',
-      name: 'SrcRollupTest',
+      dir: 'dist/cjs',
       exports: 'named',
       globals,
     },
@@ -139,6 +229,7 @@ if (!argv.format || argv.format === 'cjs') {
       }),
       babel(baseConfig.plugins.babel),
       commonjs(),
+      image(),
       postcss(),
     ],
   };
@@ -149,6 +240,7 @@ if (!argv.format || argv.format === 'iife') {
   const unpkgConfig = {
     ...baseConfig,
     external,
+    input: 'src/entry.js',
     output: {
       compact: true,
       file: 'dist/src-rollup-test.min.js',
@@ -165,6 +257,7 @@ if (!argv.format || argv.format === 'iife') {
       vue(baseConfig.plugins.vue),
       babel(baseConfig.plugins.babel),
       commonjs(),
+      image(),
       terser({
         output: {
           ecma: 5,
@@ -174,6 +267,10 @@ if (!argv.format || argv.format === 'iife') {
     ],
   };
   buildFormats.push(unpkgConfig);
+}
+
+if (!argv.format || argv.format === 'com') {
+
 }
 
 // Export config

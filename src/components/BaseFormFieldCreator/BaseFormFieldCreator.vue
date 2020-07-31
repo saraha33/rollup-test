@@ -303,11 +303,11 @@ export default {
      */
     fieldElement() {
       if (this.fieldType === 'text') {
-        return () => import('../components/BaseInput/BaseInput');
+        return () => import('../BaseInput/BaseInput');
       } if (this.fieldType === 'multiline') {
-        return () => import('../components/BaseMultilineTextInput/BaseMultilineTextInput');
+        return () => import('../BaseMultilineTextInput/BaseMultilineTextInput');
       } if (this.fieldType === 'autocomplete') {
-        return () => import('../components/BaseAutocompleteInput/BaseAutocompleteInput');
+        return () => import('../BaseAutocompleteInput/BaseAutocompleteInput');
       } if (this.fieldType === 'chips') {
         return () => import('../BaseChipsInput/BaseChipsInput');
       } if (this.fieldType === 'chips-below') {

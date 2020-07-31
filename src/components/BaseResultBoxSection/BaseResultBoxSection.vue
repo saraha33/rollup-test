@@ -150,7 +150,7 @@
 <script>
 import BaseOptions from '../BaseOptions/BaseOptions';
 import BaseButton from '../BaseButton/BaseButton';
-import BaseImageBox from '../../BaseImageBox/BaseImageBox';
+import BaseImageBox from '../BaseImageBox/BaseImageBox';
 import BaseLoader from '../BaseLoader/BaseLoader';
 import BaseBoxButton from '../BaseBoxButton/BaseBoxButton';
 import BaseSelectOptions from '../BaseSelectOptions/BaseSelectOptions';

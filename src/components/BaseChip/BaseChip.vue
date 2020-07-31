@@ -14,8 +14,9 @@
     <div
       class="base-chip-icon"
       @click="removeClicked">
+      <!--
       <RemoveIcon
-        class="base-chip-icon-img" />
+        class="base-chip-icon-img" /> -->
     </div>
     <base-hover-box
       ref="hoverBox"
@@ -27,7 +28,7 @@
 <script>
 import BaseHoverBox from '../BaseHoverBox/BaseHoverBox';
 // eslint-disable-next-line import/extensions
-import RemoveIcon from '../../static/icons/remove.svg?inline';
+// import RemoveIcon from '../../static/icons/remove.svg?inline';
 
 /**
  * Basic Chip component
@@ -36,7 +37,7 @@ import RemoveIcon from '../../static/icons/remove.svg?inline';
 export default {
   components: {
     BaseHoverBox,
-    RemoveIcon,
+    // RemoveIcon,
   },
   model: {
     prop: 'entry',
