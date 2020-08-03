@@ -162,12 +162,12 @@
 import ClickOutside from 'vue-click-outside';
 import SvgIcon from 'vue-svgicon';
 import DatePicker from 'vue2-datepicker';
-// import 'vue2-datepicker/index.css';
+import 'vue2-datepicker/index.css';
 
 // languages needed for datepicker locale
-// import 'vue2-datepicker/locale/de';
-// import 'vue2-datepicker/locale/en';
-// import 'vue2-datepicker/locale/fr';
+import 'vue2-datepicker/locale/de';
+import 'vue2-datepicker/locale/en';
+import 'vue2-datepicker/locale/fr';
 
 import BaseSwitchButton from '../BaseSwitchButton/BaseSwitchButton';
 

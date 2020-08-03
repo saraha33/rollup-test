@@ -33,9 +33,7 @@ const components = fs
   .readdirSync(baseFolder + componentsFolder)
   .filter((f) =>
     fs.statSync(path.join(baseFolder + componentsFolder, f)).isDirectory()
-  ).slice(0, 6);
-
-console.log(components);
+  )
 
 const entries = {
   'index': './src/entry.js',
@@ -51,6 +49,7 @@ components.forEach((component) => {
     `import ${component} from './${component}';
 
 import { use, registerComponent } from '../../utils/plugins';
+import '../../styles/lib.scss';
 
 const Plugin = {
     install(Vue) {
@@ -90,7 +89,7 @@ const baseConfig = {
       output: 'dist/src-rollup-test.css',
     },
     vue: {
-      css: true,
+      css: false,
       postcss: {
         plugins: require('../postcss.config.js')().plugins,
       },
@@ -134,7 +133,7 @@ function mapComponent(name) {
       external,
       input: baseFolder + componentsFolder + `${name}/index.js`,
       output: {
-        format: 'umd',
+        format: 'iife',
         name: name,
         file: `dist/components/${name}/index.js`,
         banner: bannerTxt,
@@ -142,12 +141,15 @@ function mapComponent(name) {
         globals,
         compact: true,
       },
+      inlineDynamicImports: true,
       plugins: [
         resolve(baseConfig.plugins.resolve),
         replace(baseConfig.plugins.replace),
         ...baseConfig.plugins.preVue,
-        css(baseConfig.plugins.css),
-        vue(baseConfig.plugins.vue),
+        vue({
+          ...baseConfig.plugins.vue,
+          ...{ css: true }
+        }),
         babel(baseConfig.plugins.babel),
         commonjs(),
         image(),
@@ -268,7 +270,7 @@ if (!argv.format || argv.format === 'iife') {
   buildFormats.push(unpkgConfig);
 }
 
-if (!argv.format || argv.format === 'com') {
+if (!argv.format || argv.format === 'components') {
   const componentConfig = components.map((f) => mapComponent(f)).reduce((r, a) => r.concat(a), [])
   buildFormats = buildFormats.concat(componentConfig);
 }

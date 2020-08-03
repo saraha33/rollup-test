@@ -1,6 +1,7 @@
 // Import vue components
 import * as components from './components';
 import { use, registerComponentProgrammatic } from './utils/plugins'
+import './styles/lib.scss';
 
 console.log(components);
 
