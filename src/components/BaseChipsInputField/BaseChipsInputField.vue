@@ -96,6 +96,7 @@ import { sort, createId } from '../../utils/utils';
 /** input field with chips functionalities */
 
 export default {
+  name: 'BaseChipsInputField',
   components: {
     BaseLoader,
     BaseInput,

@@ -39,6 +39,7 @@
  * accessible tab switch buttons
  */
 export default {
+  name: 'BaseSwitchButton',
   model: {
     prop: 'activeTab',
     event: 'switch',

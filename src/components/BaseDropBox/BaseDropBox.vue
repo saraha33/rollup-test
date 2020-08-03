@@ -51,6 +51,7 @@ import BaseBoxButton from '../BaseBoxButton/BaseBoxButton';
 
 
 export default {
+  name: 'BaseDropBox',
   components: {
     BaseBoxButton,
     Draggable,

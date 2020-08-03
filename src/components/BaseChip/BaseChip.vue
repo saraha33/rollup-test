@@ -35,6 +35,7 @@ import BaseHoverBox from '../BaseHoverBox/BaseHoverBox';
  */
 
 export default {
+  name: 'BaseChip',
   components: {
     BaseHoverBox,
     // RemoveIcon,

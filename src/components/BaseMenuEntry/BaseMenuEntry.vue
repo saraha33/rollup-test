@@ -74,6 +74,7 @@ import BaseCheckmark from '../BaseCheckmark/BaseCheckmark';
  */
 
 export default {
+  name: 'BaseMenuEntry',
   components: {
     SvgIcon,
     BaseCheckmark,

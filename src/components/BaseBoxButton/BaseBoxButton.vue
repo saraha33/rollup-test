@@ -67,6 +67,7 @@ import '../../assets/icons/index.js';
  */
 
 export default {
+  name: 'BaseBoxButton',
   components: {
     SvgIcon,
     BaseBox,

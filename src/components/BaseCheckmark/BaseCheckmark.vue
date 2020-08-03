@@ -33,6 +33,7 @@ import SvgIcon from 'vue-svgicon';
  */
 
 export default {
+  name: 'BaseCheckmark',
   components: {
     SvgIcon,
   },

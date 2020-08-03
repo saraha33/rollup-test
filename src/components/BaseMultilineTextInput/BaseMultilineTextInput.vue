@@ -46,6 +46,7 @@ import BaseSwitchButton from '../BaseSwitchButton/BaseSwitchButton';
  */
 
 export default {
+  name: 'BaseMultilineTextInput',
   components: { BaseSwitchButton, SvgIcon },
   model: {
     prop: 'input',

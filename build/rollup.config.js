@@ -9,6 +9,7 @@ import resolve from '@rollup/plugin-node-resolve';
 import babel from '@rollup/plugin-babel';
 import image from '@rollup/plugin-image';
 import postcss from 'rollup-plugin-postcss';
+import bundleSize from 'rollup-plugin-bundle-size';
 import css from 'rollup-plugin-css-only';
 import { terser } from 'rollup-plugin-terser';
 import minimist from 'minimist';
@@ -22,13 +23,7 @@ const esbrowserslist = fs.readFileSync('./.browserslistrc')
   .filter((entry) => entry && entry.substring(0, 2) !== 'ie');
 
 const argv = minimist(process.argv.slice(2));
-
-console.log(argv);
-
 const projectRoot = path.resolve(__dirname, '..');
-
-console.log(projectRoot);
-
 const baseFolder = './src/';
 const componentsFolder = 'components/';
 
@@ -38,7 +33,9 @@ const components = fs
   .readdirSync(baseFolder + componentsFolder)
   .filter((f) =>
     fs.statSync(path.join(baseFolder + componentsFolder, f)).isDirectory()
-  )
+  ).slice(0, 6);
+
+console.log(components);
 
 const entries = {
   'index': './src/entry.js',
@@ -93,7 +90,7 @@ const baseConfig = {
       output: 'dist/src-rollup-test.css',
     },
     vue: {
-      css: false,
+      css: true,
       postcss: {
         plugins: require('../postcss.config.js')().plugins,
       },
@@ -130,14 +127,14 @@ const globals = {
   'vue2-datepicker': 'Datepicker',
 };
 
-const mapComponent = (name) => {
+function mapComponent(name) {
   return [
     {
-      input: baseFolder + componentsFolder + `${name}/index.js`,
       ...baseConfig,
       external,
+      input: baseFolder + componentsFolder + `${name}/index.js`,
       output: {
-        format: 'iife',
+        format: 'umd',
         name: name,
         file: `dist/components/${name}/index.js`,
         banner: bannerTxt,
@@ -160,13 +157,14 @@ const mapComponent = (name) => {
           },
         }),
         postcss(),
+        bundleSize(),
       ],
     }
   ]
 }
 
 // Customize configs for individual targets
-const buildFormats = [];
+let buildFormats = [];
 if (!argv.format || argv.format === 'es') {
   const esConfig = {
     ...baseConfig,
@@ -250,6 +248,7 @@ if (!argv.format || argv.format === 'iife') {
       globals,
     },
     plugins: [
+      bundleSize(),
       resolve(baseConfig.plugins.resolve),
       replace(baseConfig.plugins.replace),
       ...baseConfig.plugins.preVue,
@@ -270,7 +269,8 @@ if (!argv.format || argv.format === 'iife') {
 }
 
 if (!argv.format || argv.format === 'com') {
-
+  const componentConfig = components.map((f) => mapComponent(f)).reduce((r, a) => r.concat(a), [])
+  buildFormats = buildFormats.concat(componentConfig);
 }
 
 // Export config

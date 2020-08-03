@@ -107,6 +107,7 @@ import BaseChip from '../BaseChip/BaseChip';
  */
 
 export default {
+  name: 'BaseChipsBelow',
   components: {
     BaseChipsInput,
     Draggable,

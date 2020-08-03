@@ -84,6 +84,7 @@ import BaseCheckmark from '../BaseCheckmark/BaseCheckmark';
  */
 
 export default {
+  name: 'BaseImageBox',
   components: {
     BaseCheckmark,
     BaseBox,

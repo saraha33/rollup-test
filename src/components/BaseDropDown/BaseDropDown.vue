@@ -78,6 +78,7 @@ import i18n from '../../mixins/i18n';
  * Accessible drop down component
  */
 export default {
+  name: 'BaseDropDown',
   components: {
     SvgIcon,
   },

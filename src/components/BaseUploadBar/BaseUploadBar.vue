@@ -32,6 +32,7 @@ import SvgIcon from 'vue-svgicon';
  * The status bar displayed during file upload
   */
 export default {
+  name: 'BaseUploadBar',
   components: {
     SvgIcon,
   },

@@ -32,6 +32,7 @@ import SvgIcon from 'vue-svgicon';
  * A basic text search to filter entries or files
   */
 export default {
+  name: 'BaseSearch',
   components: {
     SvgIcon,
   },

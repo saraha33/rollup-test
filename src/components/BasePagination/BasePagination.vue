@@ -121,6 +121,7 @@ import SvgIcon from 'vue-svgicon';
  */
 
 export default {
+  name: 'BasePagination',
   components: {
     SvgIcon,
   },

@@ -42,6 +42,7 @@ import BaseMenuEntry from '../BaseMenuEntry/BaseMenuEntry';
  */
 
 export default {
+  name: 'BaseMenuList',
   components: {
     BaseMenuEntry,
     Draggable,

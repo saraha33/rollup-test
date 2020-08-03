@@ -71,6 +71,7 @@ import navigateMixin from '../../mixins/navigateList';
  */
 
 export default {
+  name: 'BaseChipsInput',
   components: {
     BaseDropDownList: () => import('../BaseDropDownList/BaseDropDownList'),
     BaseChipsInputField,

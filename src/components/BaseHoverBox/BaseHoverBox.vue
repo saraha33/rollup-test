@@ -12,6 +12,7 @@
  */
 
 export default {
+  name: 'BaseHoverBox',
   components: {
     BaseImageBox: () => import('../BaseImageBox/BaseImageBox'),
   },

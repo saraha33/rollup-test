@@ -16,6 +16,7 @@
  * Base Component for everything Box shaped
  */
 export default {
+  name: 'BaseBox',
   /**
    * event emitted when clicked on box
    *

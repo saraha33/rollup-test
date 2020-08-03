@@ -70,6 +70,7 @@ import BaseLoader from '../BaseLoader/BaseLoader';
  */
 
 export default {
+  name: 'BaseAutocompleteInput',
   components: {
     BaseInput,
     BaseLoader,

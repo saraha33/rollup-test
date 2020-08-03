@@ -119,6 +119,7 @@ import popUpLock from '../../mixins/popUpLock';
  */
 
 export default {
+  name: 'BaseMediaPreview',
   components: {
     BaseButton: () => import('../BaseButton/BaseButton'),
     SvgIcon: () => import('vue-svgicon'),
